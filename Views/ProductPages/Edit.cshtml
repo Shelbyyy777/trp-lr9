@@ -1,0 +1,15 @@
+@model EditProductViewModel
+@{
+    ViewData["Title"] = "Изменение товара";
+    ViewData["Page"] = "products";
+}
+<header class="page-heading"><span class="eyebrow">ТОВАР № @Model.Id</span><h1>Обновим детали.</h1><p>Измени название или цену товара.</p></header>
+<section class="card narrow-card">
+    <form method="post" action="/products/@Model.Id/edit" asp-antiforgery="false">@Html.AntiForgeryToken()
+        <label asp-for="Input.Name">Название</label><input asp-for="Input.Name" maxlength="100" required />
+        <label asp-for="Input.Price">Цена</label><input asp-for="Input.Price" type="number" step="0.01" min="0.01" max="1000000" required />
+        <div asp-validation-summary="All" class="validation" role="alert"></div>
+        <button class="button primary" type="submit">Сохранить изменения <span>✓</span></button>
+        <a class="back-link" href="/products">Вернуться к каталогу</a>
+    </form>
+</section>

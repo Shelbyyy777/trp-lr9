@@ -1,0 +1,12 @@
+@model IReadOnlyList<Student>
+@{
+    ViewData["Title"] = "Студенты";
+    ViewData["Page"] = "students";
+}
+<header class="page-heading"><span class="eyebrow">УЧЕБНАЯ ГРУППА</span><h1>Знакомые лица.</h1><p>Учебные записи студентов из предыдущего проекта.</p></header>
+<div class="student-grid">
+    @foreach (var student in Model)
+    {
+        <a class="card student-card" href="/students/@student.Id"><span class="avatar">@student.Name[0]</span><span class="small-label">СТУДЕНТ № @student.Id</span><h2>@student.Name</h2><p>Возраст: @student.Age</p><span class="student-link">Открыть карточку →</span></a>
+    }
+</div>

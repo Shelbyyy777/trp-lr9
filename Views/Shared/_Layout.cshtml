@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] · До события</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="theme-mvc">
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="/"><span class="brand-icon">↗</span><span>До события<small>Твой календарь планов</small></span></a>
+            <div class="sidebar-label">РАБОЧЕЕ ПРОСТРАНСТВО</div>
+            <nav class="navigation" aria-label="Основная навигация">
+                <a href="/" class="@(ViewData["Page"] as string == "calendar" ? "active" : "")"><span>◷</span>Калькулятор</a>
+                <a href="/products" class="@(ViewData["Page"] as string == "products" ? "active" : "")"><span>▤</span>Товары</a>
+                <a href="/students" class="@(ViewData["Page"] as string == "students" ? "active" : "")"><span>◉</span>Студенты</a>
+            </nav>
+            <div class="sidebar-note"><span class="badge">MVC</span><p>Янковой Артём<br />БИСТ-24-ПО-3</p><small>Вариант 15</small></div>
+        </aside>
+        <main class="main-content">
+            <div class="topline"><span>ПЛАНЫ И ДАННЫЕ</span><span class="quiet">ASP.NET Core · .NET 10</span></div>
+            @RenderBody()
+            <footer>Календарные дни · Дата сервера · Вариант 15</footer>
+        </main>
+    </div>
+</body>
+</html>

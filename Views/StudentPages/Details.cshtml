@@ -1,0 +1,7 @@
+@model Student
+@{
+    ViewData["Title"] = "Карточка студента";
+    ViewData["Page"] = "students";
+}
+<header class="page-heading"><span class="eyebrow">СТУДЕНТ № @Model.Id</span><h1>@Model.Name</h1><p>Карточка учебной записи.</p></header>
+<section class="card narrow-card"><span class="avatar">@Model.Name[0]</span><dl class="details-list"><dt>Идентификатор</dt><dd>@Model.Id</dd><dt>Имя</dt><dd>@Model.Name</dd><dt>Возраст</dt><dd>@Model.Age</dd></dl><a class="back-link" href="/students">← Все студенты</a></section>

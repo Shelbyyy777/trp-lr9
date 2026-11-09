@@ -1,0 +1,30 @@
+@model ProductPageViewModel
+@{
+    ViewData["Title"] = "Товары";
+    ViewData["Page"] = "products";
+}
+<header class="page-heading"><span class="eyebrow">КАТАЛОГ</span><h1>Всё на своих местах.</h1><p>Добавляй товары, меняй цены и управляй списком.</p></header>
+<div class="data-grid">
+    <section class="card"><div class="section-number">СПИСОК <span>@Model.Products.Count товаров</span></div>
+        @if (Model.Products.Count == 0)
+        { <p class="empty-state">Список пока пуст. Добавь первый товар.</p> }
+        else
+        {
+            <div class="table-scroll"><table><thead><tr><th>ID</th><th>Название</th><th>Цена</th><th>Действия</th></tr></thead><tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr><td class="quiet">@product.Id</td><td class="item-name">@product.Name</td><td class="price">@product.Price.ToString("0.00", CultureInfo.GetCultureInfo("ru-RU"))</td><td><div class="row-actions"><a class="text-button" href="/products/@product.Id/edit">Изменить</a><form method="post" action="/products/@product.Id/delete" asp-antiforgery="false">@Html.AntiForgeryToken()<button class="text-button danger" type="submit">Удалить</button></form></div></td></tr>
+            }
+            </tbody></table></div>
+        }
+    </section>
+    <section class="card"><div class="section-number">НОВЫЙ ТОВАР</div><h2>Добавить в каталог</h2>
+        <form method="post" action="/products" asp-antiforgery="false">@Html.AntiForgeryToken()
+            <label for="Input_Name">Название</label><input asp-for="Input.Name" id="Input_Name" maxlength="100" placeholder="Например, апельсин" required />
+            <label for="Input_Price">Цена</label><input asp-for="Input.Price" id="Input_Price" type="number" step="0.01" min="0.01" max="1000000" required />
+            <div asp-validation-summary="All" class="validation" role="alert"></div>
+            <button class="button primary" type="submit">Добавить товар <span>+</span></button>
+        </form>
+        <p class="field-note">Номер товара появится после добавления.</p>
+    </section>
+</div>

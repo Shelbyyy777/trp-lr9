@@ -1,0 +1,31 @@
+@model CalendarViewModel
+@{
+    ViewData["Title"] = "Калькулятор";
+    ViewData["Page"] = "calendar";
+    var result = Model.Result;
+    var label = result?.Status == "past" ? "С момента события" : result?.Status == "today" ? "Настал этот день" : "До события осталось";
+}
+<header class="page-heading"><span class="eyebrow">КАЖДЫЙ ДЕНЬ ИМЕЕТ ЗНАЧЕНИЕ</span><h1>Планы становятся ближе.</h1><p>Выбери дату и узнай, сколько дней осталось до события.</p></header>
+<div class="calendar-grid">
+    <section class="card form-card">
+        <div class="section-number">01 <span>Выбери событие</span></div>
+        <h2>Когда твой важный день?</h2>
+        <form asp-controller="Home" asp-action="Calculate" method="post">
+            <label asp-for="EventDate"></label>
+            <input asp-for="EventDate" type="date" required />
+            <p class="field-note">Можно выбрать и прошедшую дату.</p>
+            <div asp-validation-summary="All" class="validation" role="alert"></div>
+            <button class="button primary" type="submit">Рассчитать дни <span>→</span></button>
+        </form>
+        <div class="quick-dates"><span>БЫСТРЫЙ ВЫБОР</span><a href="/?date=@Model.Today">Сегодня</a><a href="/?date=@DayCalculator.Format(DateOnly.Parse(Model.Today).AddDays(7))">Через неделю</a><a href="/?date=@DayCalculator.Format(DateOnly.Parse(Model.Today).AddDays(-1))">Вчера</a></div>
+    </section>
+    <section class="result-card" aria-live="polite">
+        <div class="result-top"><span>ТВОЙ РЕЗУЛЬТАТ</span><span class="result-symbol">◷</span></div>
+        <p class="result-label">@label</p>
+        <div class="day-number" id="day-number">@(result is null ? "—" : Math.Abs(result.Days).ToString())</div>
+        <p class="day-unit">КАЛЕНДАРНЫХ ДНЕЙ</p>
+        <div class="result-message" id="result-message">@(result?.Message ?? "Выбери существующую дату события.")</div>
+        <div class="result-date"><span>Дата события</span><strong>@(result is null ? "—" : DateOnly.Parse(result.EventDate).ToString("dd.MM.yyyy"))</strong></div>
+    </section>
+</div>
+<div class="info-strip"><div><span class="small-label">СЕГОДНЯ НА СЕРВЕРЕ</span><strong>@DateOnly.Parse(Model.Today).ToString("dd.MM.yyyy")</strong></div><p>Будущая дата даёт положительное число дней, прошедшая — отрицательное. Если событие сегодня, результат равен нулю.</p></div>
